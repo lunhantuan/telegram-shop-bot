@@ -1,14 +1,25 @@
 import React from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import { Link } from 'react-router-dom';  // Thêm dòng này để sử dụng Link
+import { useLocation } from 'react-router-dom';  // To access the passed state
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function CheckoutPage() {
+  const location = useLocation();
+  const { cart } = location.state || {};  // Extract cart data from the passed state
+
+  const calculateTotal = () => {
+    return cart?.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
+
+  if (!cart) {
+    return <div>No cart data available.</div>;
+  }
+
   return (
     <div>
       <div className="container">
         <h1 className="text-center my-4">Checkout</h1>
+        
+        {/* Form Section */}
         <form>
           <div className="mb-3">
             <label htmlFor="uniqueId" className="form-label">Unique ID</label>
@@ -30,35 +41,40 @@ function CheckoutPage() {
             <label htmlFor="additionalInfo" className="form-label">Additional Information</label>
             <textarea className="form-control" id="additionalInfo" rows="3"></textarea>
           </div>
-
-          <h3>Your Order</h3>
-          <div className="table-responsive">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Subtotal</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Product ABC</td>
-                  <td>$5</td>
-                </tr>
-                <tr>
-                  <td>Product XYZ</td>
-                  <td>$10</td>
-                </tr>
-                <tr>
-                  <td><strong>Total</strong></td>
-                  <td><strong>$15</strong></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <button className="btn btn-success w-100">Place Order</button>
         </form>
+
+        {/* Cart Summary Section */}
+        <h3>Your Order</h3>
+        <div className="table-responsive">
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cart.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.name}</td>
+                  <td>{item.quantity}</td>
+                  <td>${item.price}</td>
+                  <td>${item.price * item.quantity}</td>
+                </tr>
+              ))}
+              <tr>
+                <td><strong>Total</strong></td>
+                <td></td>
+                <td></td>
+                <td><strong>${calculateTotal()}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <button className="btn btn-success w-100">Place Order</button>
       </div>
     </div>
   );

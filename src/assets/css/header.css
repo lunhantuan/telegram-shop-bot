@@ -1,0 +1,42 @@
+.header {
+    background-color: #f8c200; /* Gold background for header */
+    padding: 10px 0;
+  }
+  
+  .logo {
+    font-size: 2rem;
+  }
+  
+  .back-button-container {
+    position: fixed; /* Ensure the button stays fixed on the screen */
+    top: 20px;  /* Position the button a bit below the top */
+    right: 20px; /* Position the button on the right side */
+    z-index: 10;  /* Ensure it stays on top */
+  }
+  
+  .back-button {
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+  
+  .rectangle {
+    background-color: #fff; /* White background for the rectangle */
+    height: 5px; /* Height of the rectangle */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light drop shadow */
+    margin-top: 20px;
+  }
+  
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  /* Responsive styling */
+  @media (max-width: 768px) {
+    .back-button-container {
+      top: 10px; /* Adjust for mobile */
+      right: 10px;
+    }
+  }
+  

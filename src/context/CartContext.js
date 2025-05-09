@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect  } from 'react';
 
 const CartContext = createContext();
 
@@ -9,16 +9,45 @@ export const useCart = () => {
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);  // Giỏ hàng ban đầu là một mảng trống
 
+
+   // Load cart from localStorage when the app initializes
+   useEffect(() => {
+    const savedCart = JSON.parse(localStorage.getItem('cart')) || [];
+    setCart(savedCart);
+  }, []);
+
+  // Update localStorage when cart changes
+  useEffect(() => {
+    if (cart.length > 0) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+  }, [cart]);
+
   // Thêm sản phẩm vào giỏ hàng
   const addToCart = (product) => {
     setCart((prevCart) => {
-      const updatedCart = [...prevCart];
-      const existingProduct = updatedCart.find(item => item.id === product.id);
+      // Lấy giỏ hàng từ localStorage
+      const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+  
+      // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+      const existingProduct = storedCart.find((item) => item.id === product.id);
+  
+      let updatedCart;
       if (existingProduct) {
-        existingProduct.quantity += product.quantity;
+        // Nếu sản phẩm đã có trong giỏ, cập nhật số lượng của sản phẩm từ localStorage
+        updatedCart = storedCart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + product.quantity }
+            : item
+        );
       } else {
-        updatedCart.push(product);
+        // Nếu sản phẩm chưa có, thêm vào giỏ hàng
+        updatedCart = [...storedCart, product];
       }
+  
+      // Lưu giỏ hàng mới vào localStorage
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+  
       return updatedCart;
     });
   };
@@ -39,7 +68,15 @@ export const CartProvider = ({ children }) => {
 
   // Xóa sản phẩm khỏi giỏ hàng
   const removeFromCart = (id) => {
-    setCart(prevCart => prevCart.filter(item => item.id !== id));
+    setCart(prevCart => {
+      // Lọc ra các sản phẩm không bị xóa
+      const updatedCart = prevCart.filter(item => item.id !== id);
+  
+      // Lưu giỏ hàng đã thay đổi vào localStorage
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+  
+      return updatedCart;  // Trả về giỏ hàng đã thay đổi
+    });
   };
 
   return (

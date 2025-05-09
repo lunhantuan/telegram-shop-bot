@@ -7,6 +7,7 @@ import CategoryPage from './pages/CategoryPage';
 import ProductInfo from './pages/ProductInfo';
 import Header from './components/Header';
 import Footer from './components/Footer'; // Import Footer nếu cần
+import ViewCartButton from './components/ViewCartButton'; // Import the new component
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/checkout" element={<CheckoutPage />} /> {/* Trang thanh toán */}
       </Routes>
       <Footer /> {/* Thêm Footer */}
+      <ViewCartButton /> {/* Add the ViewCartButton here */}
     </Router>
   );
 }
