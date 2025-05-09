@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';  // Đảm bảo bạn đã cài 
 import '../assets/css/header.css';
 
 const products = [
-  { id: 1, name: 'Sản phẩm 1', price: 100, description: 'Mô tả sản phẩm 1', imageUrl: '/images/photo_2024-08-19_14-32-45.png' },
+  { id: 1, name: 'Sản phẩm 1', price: 100, description: 'Mô tả sản phẩm 1', imageUrl: 'https://res.cloudinary.com/dtoyvqet9/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1746805993/Untitled-1_jgmpb9.jpg' },
   { id: 2, name: 'Sản phẩm 2', price: 150, description: 'Mô tả sản phẩm 2', imageUrl: '/images/photo_2024-08-19_14-32-45.png' },
   // Thêm các sản phẩm khác nếu cần
 ];
